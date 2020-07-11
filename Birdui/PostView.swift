@@ -13,26 +13,33 @@ struct PostView: View {
     
   let imageSize: CGFloat = 200
   
+  static let postDateFormat: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .long
+    return formatter
+  }()
+  
   var body: some View {
     // TODO: This should look exactly like Birdie's table view cell.
     // The post text is left-aligned below the mascot image.
     // The image, if any, is horizontally centered in the view.
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading){
         HStack {
             Image("mascot_swift-badge")
                 .resizable()
-                .frame(width: 30, height: 30, alignment: .leading)
-            VStack {
-                Text(post.userName)
-                Text("TODO readable timestamp")
+                .frame(width: 50, height: 50, alignment: .leading)
+          VStack(alignment: .leading) {
+            Text(post.userName)
+            Text("\(post.timestamp, formatter: Self.postDateFormat)")
             }
         }
-        Text(post.textBody ?? "")
+      Text(post.textBody ?? "")
+        .multilineTextAlignment(.leading)
         if post.uiImage != nil {
           Image(uiImage: post.uiImage!)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: imageSize, height: imageSize)
+            .frame(width: 100, height: 100, alignment: .center)
         }
     }
   }
@@ -40,8 +47,13 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
   static var previews: some View {
-    PostView(post: MediaPost(textBody: "Went to the Aquarium today :]",
-      userName: "Audrey", timestamp: Date(timeIntervalSinceNow: -9876),
-      uiImage: UIImage(named: "octopus")))
+    Group{
+      PostView(post: MediaPost(textBody: "Went to the Aquarium today :]",
+                               userName: "Audrey", timestamp: Date(timeIntervalSinceNow: -9876),
+                               uiImage: UIImage(named: "octopus")))
+      
+      PostView(post: MediaPost(textBody: "This is my favorite social media app! This is my favorite social media app! This is my favorite social media app!", userName: "Jeff", timestamp: Date(timeIntervalSinceNow: -2345), uiImage: nil))
+    }
+    
   }
 }

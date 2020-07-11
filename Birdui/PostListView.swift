@@ -22,12 +22,19 @@ struct PostListView: View {
             Image("mascot_swift-badge")
                 .resizable()
                 .frame(width: 50, height: 50, alignment: .leading)
+                .padding()
+            Spacer()
             Text("Home")
+              .font(.largeTitle)
+              .padding(.leading, -60)
+            Spacer()
         }
         Button(action: {
             self.showingNewPostView = true
         }) {
-            Text("add new post")
+            Text("Create New Post")
+              .padding()
+            Spacer()
         }
         List {
             ForEach(postHandler.posts) { post in
